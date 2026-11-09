@@ -1,0 +1,82 @@
+/* Ant Design handles the form. This file covers layout, the A4 invoice and print. */
+
+[hidden] { display: none !important; }
+
+.app-layout { min-height: 100vh; }
+.app-header { height: auto; line-height: normal; padding: 12px 24px; position: sticky; top: 0; z-index: 10; }
+.app-content { padding: 24px; max-width: 1440px; width: 100%; margin: 0 auto; }
+.logo { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-size: 18px; }
+.mobile-switch { margin-bottom: 16px; }
+.logo-thumb { height: 40px; max-width: 140px; object-fit: contain; border: 1px solid #f0f0f0; border-radius: 6px; padding: 4px; background: #fff; }
+
+.party { border: 0; padding: 0; margin: 0; min-width: 0; }
+.party legend { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(0, 0, 0, 0.45); font-weight: 600; margin-bottom: 8px; }
+
+/* Line items grid */
+.lines-head { font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(0, 0, 0, 0.45); font-weight: 600; margin-bottom: 6px; }
+.col-qty { width: 76px; }
+.col-price { width: 116px; }
+.col-vat { width: 88px; }
+.col-amount { width: 104px; text-align: right; }
+.col-remove { width: 40px; }
+.col-desc { min-width: 0; }
+.line-amount { display: block; padding-top: 5px; font-variant-numeric: tabular-nums; }
+@media (max-width: 640px) {
+  .lines-head { display: none; }
+  .line-row { padding: 10px 0; border-bottom: 1px solid #f0f0f0; margin-bottom: 8px; }
+  .line-row .col-desc { flex: 1 1 100% !important; }
+  .col-qty, .col-price, .col-vat { width: 33.33%; }
+  .col-amount { width: calc(100% - 40px); text-align: left; }
+}
+
+.preview-panel { position: sticky; top: 88px; transition: opacity 0.15s; }
+@media (max-width: 991px) {
+  .app-header { position: static; padding: 12px 16px; }
+  .app-content { padding: 16px; }
+  .preview-panel { position: static; }
+}
+
+/* ---------- Invoice paper ---------- */
+.paper { --brand: #0d6b4f; position: relative; background: #fff; color: #14201a; border-radius: 6px; box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08); padding: 44px 48px; overflow: hidden; font-size: 13px; line-height: 1.5; }
+.paper-head { display: flex; justify-content: space-between; gap: 24px; align-items: flex-start; border-bottom: 3px solid var(--brand); padding-bottom: 20px; }
+.logo-img { max-height: 54px; max-width: 180px; object-fit: contain; }
+.logo-text { font-weight: 700; font-size: 18px; color: var(--brand); }
+.title-block { text-align: right; }
+.title-block h1 { margin: 0 0 8px; font-size: 30px; letter-spacing: 0.02em; text-transform: uppercase; color: var(--brand); }
+.title-block dl { margin: 0; display: grid; gap: 2px; }
+.title-block dl div { display: flex; justify-content: flex-end; gap: 10px; }
+.title-block dt { color: #66736c; }
+.title-block dd { margin: 0; font-family: ui-monospace, Menlo, monospace; min-width: 130px; }
+.parties { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin: 24px 0; }
+.parties h3 { margin: 0 0 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: #66736c; }
+.parties p { margin: 0; white-space: pre-line; color: #3b4841; overflow-wrap: anywhere; }
+.paper-table { overflow-x: auto; }
+.paper table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; min-width: 420px; }
+.paper th { background: #eef5f2; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #3b4841; padding: 9px 10px; text-align: right; }
+.paper td { padding: 10px; border-bottom: 1px solid #e6ebe8; text-align: right; }
+.paper .l { text-align: left; }
+.totals { margin: 18px 0 0 auto; width: min(300px, 100%); display: flex; flex-direction: column; gap: 6px; font-variant-numeric: tabular-nums; }
+.totals div { display: flex; justify-content: space-between; gap: 12px; }
+.totals .grand { border-top: 2px solid #14201a; margin-top: 6px; padding-top: 10px; font-weight: 700; font-size: 16px; }
+.paper-foot { margin-top: 32px; padding-top: 14px; border-top: 1px solid #e6ebe8; color: #4f5c55; font-size: 12px; }
+.paper-foot p { margin: 0 0 4px; overflow-wrap: anywhere; }
+.stamp { position: absolute; top: 34px; left: 50%; transform: translateX(-50%) rotate(-10deg); border: 3px solid currentColor; padding: 4px 18px; border-radius: 8px; font-weight: 700; font-size: 22px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.75; }
+.stamp.paid { color: #0d6b4f; }
+.stamp.sent { color: #1677ff; }
+@media (max-width: 640px) {
+  .paper { padding: 24px 20px; }
+  .paper-head { flex-direction: column; }
+  .title-block { text-align: left; }
+  .title-block dl div { justify-content: flex-start; }
+  .parties { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ---------- Print: only the invoice ---------- */
+@page { size: A4; margin: 14mm; }
+@media print {
+  .app-header, .mobile-switch, .form-col { display: none !important; }
+  .app-layout, .app-content { background: #fff !important; padding: 0 !important; max-width: none; }
+  .preview-col { display: block !important; max-width: 100% !important; flex: 0 0 100% !important; padding: 0 !important; }
+  .preview-panel { position: static; opacity: 1 !important; }
+  .paper { box-shadow: none; padding: 0; border-radius: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
